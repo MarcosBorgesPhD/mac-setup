@@ -5,7 +5,7 @@
 # https://marcosborges.phd
 #
 readonly MAC_SETUP_DOC="https://marcosborgesphd.github.io/mac-setup"
-readonly VERSION="0.0.2"
+readonly VERSION="0.0.3"
 readonly PREFIX="${HOME}"
 
 readonly CR='\033[91m'
@@ -27,6 +27,8 @@ Options
   gitconfig      Set up Git
   terminal       Install and set up Starship and Zsh
   zsh            Set up Zsh
+  vscode         Install and set up VS Code and its extensions
+  vscode_config  Set up VS Code
 EOF
 }
 
@@ -204,6 +206,92 @@ setopt HIST_IGNORE_SPACE    # Commands starting with space not saved
 EOF
 }
 
+vscode_install() {
+    printf "${CM}Installing VS Code...${NC}\n"
+    brew install visual-studio-code
+
+    wait_for_sudo
+
+    printf "${CM}Installing 'code' command in PATH...${NC}\n"
+    local SOURCE='/Applications/Visual Studio Code.app/Contents/Resources/app/bin/code'
+    local TARGET='/usr/local/bin/code'
+    sudo ln -snf "${SOURCE}" "${TARGET}"
+
+    printf "${CM}Installing VS Code plugins...${NC}\n"
+    code --install-extension ms-vscode.live-server
+    code --install-extension ms-python.python
+    code --install-extension ms-vscode.cpptools
+    code --install-extension rust-lang.rust-analyzer
+    code --install-extension James-Yu.latex-workshop
+
+    printf "\n${CG}VS Code installation completed successfully.${NC}\n\n"
+}
+
+vscode_config() {
+    printf "${CM}Configuring VS Code...${NC}\n"
+
+    printf "Setting VS Code as the default Git editor, diff, and merge tool...\n"
+    git config --global core.editor 'code --wait'
+    git config --global diff.tool vscode
+    git config --global difftool.vscode.cmd 'code --wait --diff $LOCAL $REMOTE'
+    git config --global merge.tool vscode
+    git config --global mergetool.vscode.cmd 'code --wait $MERGED'
+
+    printf "Backing up VS Code settings to '~/Downloads'...\n"
+    cp "${HOME}/Library/Application Support/Code/User/settings.json" "${HOME}/Downloads"
+
+    printf "Updating VS Code settings...\n"
+    echo "$(vscode_settings)" > "${HOME}/Library/Application Support/Code/User/settings.json"
+
+    printf "\n${CG}VS Code configuration completed successfully.${NC}\n"
+}
+
+vscode_settings() {
+cat <<'EOF'
+{
+    "window.newWindowDimensions": "maximized",
+    "window.title": "${folderPath}",
+
+    "workbench.activityBar.location":"bottom",
+    "workbench.startupEditor": "newUntitledFile",
+
+    "extensions.ignoreRecommendations": true,
+    "telemetry.telemetryLevel": "off",
+
+    "editor.fontFamily": "JetBrainsMono Nerd Font",
+    "editor.fontSize": 14,
+    "editor.rulers": [80, 120],
+    "editor.minimap.enabled": false,
+
+    "terminal.integrated.fontFamily": "JetBrainsMono Nerd Font",
+    "terminal.integrated.fontSize": 14,
+
+    "files.trimTrailingWhitespace": true,
+    "files.associations": { "*.mdx": "markdown" },
+
+    "latex-workshop.latex.recipe.default": "Latexmk (LuaLaTex)",
+    "latex-workshop.latex.outDir": "./build",
+    "latex-workshop.latex.recipes": [
+        { "name": "Latexmk (LuaLaTex)", "tools": ["latexmk (lualatex)"] }
+    ],
+    "latex-workshop.latex.tools": [
+        {
+            "name": "latexmk (lualatex)",
+            "command": "latexmk",
+            "args": [
+                "-lualatex",
+                "-shell-escape",
+                "-synctex=1",
+                "-interaction=nonstopmode",
+                "-output-directory=./build",
+                "%DOC%"
+            ]
+        }
+    ]
+}
+EOF
+}
+
 # --- Check for no arguments ---
 if [[ $# -eq 0 ]]; then
     usage
@@ -236,6 +324,14 @@ for arg in "$@"; do
             ;;
         zsh)
             terminal_config
+            ;;
+        vscode)
+            brew_update
+            vscode_install
+            vscode_config
+            ;;
+        vscode_config)
+            vscode_config
             ;;
         --|-*|*)
             error

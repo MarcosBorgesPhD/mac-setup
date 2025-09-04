@@ -38,6 +38,7 @@ export default defineConfig({
                         { label: 'First Steps', slug: 'guides/first-steps' },
                         { label: 'Git Setup', slug: 'guides/git-setup' },
                         { label: 'Terminal Setup', slug: 'guides/terminal-setup' },
+                        { label: 'Code Editor Setup', slug: 'guides/code-editor-setup' },
                     ],
                 }
             ],
