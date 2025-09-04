@@ -11,17 +11,17 @@ export default defineConfig({
                 {
                     icon: 'github',
                     label: 'GitHub',
-                    href: 'https://github.com/marcosborgesphd/mac-setup'
+                    href: 'https://github.com/marcosborgesphd/mac-setup',
                 },
                 {
                     icon: 'youtube',
                     label: 'YouTube',
-                    href: 'https://www.youtube.com/@MarcosBorgesPhD'
+                    href: 'https://www.youtube.com/@MarcosBorgesPhD',
                 },
                 {
                     icon: 'linkedin',
                     label: 'LinkedIn',
-                    href: 'https://www.linkedin.com/in/marcosborgesphd'
+                    href: 'https://www.linkedin.com/in/marcosborgesphd',
                 },
             ],
             sidebar: [
@@ -29,13 +29,14 @@ export default defineConfig({
                     label: 'Start Here',
                     items: [
                         { label: 'Getting Started', slug: 'index'},
-                        { label: 'About Marcos Borges', slug: 'about/marcos-borges' }
+                        { label: 'About Marcos Borges', slug: 'about/marcos-borges' },
                     ],
                 },
                 {
                     label: 'Guides',
                     items: [
-                        { label: 'First Steps', slug: 'guides/first-steps' }
+                        { label: 'First Steps', slug: 'guides/first-steps' },
+                        { label: 'Git Setup', slug: 'guides/git-setup' },
                     ],
                 }
             ],

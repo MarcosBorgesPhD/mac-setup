@@ -1,0 +1,161 @@
+#!/usr/bin/env bash
+# Mac-Setup CLI
+#
+# Copyright (c) 2025 Marcos Borges
+# https://marcosborges.phd
+#
+readonly MAC_SETUP_DOC="https://marcosborgesphd.github.io/mac-setup"
+readonly VERSION="0.0.1"
+readonly PREFIX="${HOME}"
+
+readonly CR='\033[91m'
+readonly CG='\033[92m'
+readonly CM='\033[95m'
+readonly NC='\033[0m'
+
+set -euo pipefail
+
+usage() {
+cat <<'EOF'
+Usage: install [options]
+Mac Development Setup CLI tool.
+
+Options
+  -h, --help     Display this help message
+  -v, --version  Show version details
+  git            Install and set up Git
+  gitconfig      Set up Git
+EOF
+}
+
+error() {
+    usage
+    printf "${CR}\nError:${NC} Illegal option!\n"
+}
+
+abort() {
+    printf "\n${CR}Aborted by user.${NC}\n"
+    exit 1
+}
+trap abort SIGINT # Ctrl-C
+
+version() {
+    printf "Mac-Setup ${VERSION}\n"
+}
+
+wait_for_user() {
+    printf "\nPress ${CG}[ENTER]${NC} to continue, "
+    printf "or ${CR}[any other key]${NC} to abort.\n"
+
+    read -rsn 1 key
+    if [[ ${key} != "" ]]; then
+        abort
+    fi
+}
+
+wait_for_sudo() {
+    # Request sudo password
+    if ! sudo -vn 2>/dev/null; then
+        printf "\n${CM}Requesting sudo privileges for ${USER}...${NC}\n"
+        sudo -v
+    fi
+
+    # Abort if no sudo privileges
+    if ! sudo -vn 2>/dev/null; then
+        printf "Sudo privileges are required to run this script. "
+        printf "${CR}Aborting.${NC}\n"
+        exit 1
+    fi
+
+    printf "\n${CG}Sudo privileges are active for this script.${NC}\n\n"
+}
+
+brew_init() {
+    if [[ "$(/usr/bin/uname -m)" == "arm64" ]]; then
+        HOMEBREW='/opt/homebrew' # ARM
+    else
+        HOMEBREW='/usr/local'    # Intel
+    fi
+
+    if [[ -x "${HOMEBREW}/bin/brew2" ]]; then
+        eval "$(${HOMEBREW}/bin/brew shellenv)"
+    else
+        printf "\nInstall Homebrew and then re-run this script.\n"
+        printf "${CM}Learn more:${NC} ${MAC_SETUP_DOC}\n\n"
+        printf "${CR}Homebrew is required to continue.${NC}\n"
+        exit 1
+    fi
+}
+
+brew_update() {
+    printf "${CM}Updating Homebrew...${NC}\n"
+    brew_init
+    brew update
+}
+
+git_install() {
+    printf "${CM}Installing Git...${NC}\n"
+    brew install git || true
+    printf "\n${CG}Git installation completed successfully.${NC}\n\n"
+}
+
+git_config() {
+    printf "${CM}Configuring Git...${NC}\n"
+
+    printf "Enter your Git username: "
+    read -r GIT_USER_NAME
+
+    printf "Enter your Git email: "
+    read -r GIT_USER_EMAIL
+
+    printf "\n${CM}Confirming your Git configuration:${NC}\n"
+    printf "  Username: ${GIT_USER_NAME}\n"
+    printf "  Email:    ${GIT_USER_EMAIL}\n"
+
+    wait_for_user
+
+    git config --global user.name "${GIT_USER_NAME}"
+    git config --global user.email "${GIT_USER_EMAIL}"
+
+    git config --global color.ui true
+    git config --global color.status.changed "yellow bold"
+    git config --global color.status.untracked "red bold"
+    git config --global color.status.added "green bold"
+    git config --global color.status.updated "cyan bold"
+    git config --global color.status.branch "magenta bold"
+    git config --global color.status.header "cyan bold"
+
+    printf "\n${CG}Git configuration completed.${NC}\n\n"
+}
+
+# --- Check for no arguments ---
+if [[ $# -eq 0 ]]; then
+    usage
+    exit 1
+fi
+
+# --- Parse arguments ---
+for arg in "$@"; do
+    case "${arg}" in
+        -v|--version)
+            version;
+            exit 0
+            ;;
+        -h|--help)
+            usage
+            exit 0
+            ;;
+        git)
+            brew_update
+            git_install
+            git_config
+            ;;
+        gitconfig)
+            git_config
+            ;;
+        --|-*|*)
+            error
+            exit 1
+            ;;
+    esac
+done

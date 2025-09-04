@@ -1,0 +1,69 @@
+---
+title: Git Setup
+description: Install and set up Git username, email, and terminal colors.
+---
+import { Steps, Aside } from '@astrojs/starlight/components';
+
+![Git](../../../assets/git.png)
+
+[Git](https://git-scm.com) is a free and open source distributed version control system.
+
+## Installing Git via Mac-Setup CLI
+
+```bash
+bash <(curl -fsSL raw.githubusercontent.com/marcosborgesphd/mac-setup/main/install) git
+```
+
+## Installing Git manually
+
+<Steps>
+
+1. Set up Homebrew environment
+
+    Paste that in the terminal prompt:
+
+    ```bash
+    if [[ "$(/usr/bin/uname -m)" == "arm64" ]]; then
+        HOMEBREW='/opt/homebrew' # ARM
+    else
+        HOMEBREW='/usr/local'    # Intel
+    fi
+    eval "$(${HOMEBREW}/bin/brew shellenv)"
+    ```
+
+2. Install Git using Homebrew
+
+    ```bash
+    brew install git
+    ```
+
+3. Set Git username and email
+
+    ```bash
+    git config --global user.name "Your Name"
+    git config --global user.email "your@email.com"
+    ```
+
+    <Aside type="note">
+    Remember to replace the placeholders with your own name and email.
+    </Aside>
+
+4. Set Git terminal colors for dark and light mode
+
+    ```bash
+    git config --global color.ui true
+    git config --global color.status.changed "yellow bold"
+    git config --global color.status.untracked "red bold"
+    git config --global color.status.added "green bold"
+    git config --global color.status.updated "cyan bold"
+    git config --global color.status.branch "magenta bold"
+    git config --global color.status.header "cyan bold"
+    ```
+
+5. Check Git configuration
+
+    ```bash
+    git config --global --list
+    ```
+
+</Steps>
