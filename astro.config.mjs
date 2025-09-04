@@ -28,7 +28,8 @@ export default defineConfig({
                 {
                     label: 'Start Here',
                     items: [
-                        { label: 'Getting Started', slug: 'index'}
+                        { label: 'Getting Started', slug: 'index'},
+                        { label: 'About Marcos Borges', slug: 'about/marcos-borges' }
                     ]
                 }
             ],
