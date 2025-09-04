@@ -22,7 +22,7 @@ export default defineConfig({
                     icon: 'linkedin',
                     label: 'LinkedIn',
                     href: 'https://www.linkedin.com/in/marcosborgesphd'
-                }
+                },
             ],
             sidebar: [
                 {
@@ -30,7 +30,13 @@ export default defineConfig({
                     items: [
                         { label: 'Getting Started', slug: 'index'},
                         { label: 'About Marcos Borges', slug: 'about/marcos-borges' }
-                    ]
+                    ],
+                },
+                {
+                    label: 'Guides',
+                    items: [
+                        { label: 'First Steps', slug: 'guides/first-steps' }
+                    ],
                 }
             ],
         }),
