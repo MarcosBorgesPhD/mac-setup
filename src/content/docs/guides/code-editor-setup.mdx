@@ -80,13 +80,13 @@ bash <(curl -fsSL raw.githubusercontent.com/marcosborgesphd/mac-setup/main/insta
     eval "$(${HOMEBREW}/bin/brew shellenv)"
     ```
 
-2. Install VS Code:
+2. Install VS Code
 
     ```bash
     brew install visual-studio-code
     ```
 
-3. Add VS Code command to the terminal:
+3. Add VS Code command to the terminal
 
     <Aside type="tip">
     You can run VS Code from the terminal by typing `code` after adding it to the `PATH`.
@@ -99,7 +99,7 @@ bash <(curl -fsSL raw.githubusercontent.com/marcosborgesphd/mac-setup/main/insta
     sudo ln -snf "${SOURCE}" "${TARGET}"
     ```
 
-4. Set VS Code as the default Git editor, diff, and merge tool:
+4. Set VS Code as the default Git editor, diff, and merge tool
 
     ```bash
     git config --global core.editor 'code --wait'
@@ -111,37 +111,37 @@ bash <(curl -fsSL raw.githubusercontent.com/marcosborgesphd/mac-setup/main/insta
     git config --global mergetool.vscode.cmd 'code --wait $MERGED'
     ```
 
-5. Install Live Preview extension:
+5. Install Live Preview extension
 
     ```bash
     code --install-extension ms-vscode.live-server
     ```
 
-6. Install Python extension:
+6. Install Python extension
 
     ```bash
     code --install-extension ms-python.python
     ```
 
-7. Install C/C++ extension:
+7. Install C/C++ extension
 
     ```bash
     code --install-extension ms-vscode.cpptools
     ```
 
-8. Install rust-analyzer extension:
+8. Install rust-analyzer extension
 
     ```bash
     code --install-extension rust-lang.rust-analyzer
     ```
 
-9. Install LaTeX Workshop extension:
+9. Install LaTeX Workshop extension
 
     ```bash
     code --install-extension James-Yu.latex-workshop
     ```
 
-10. Backup your VS Code settings:
+10. Backup your VS Code settings
 
     <Aside type="note">
     If needed, you can recover your VS Code settings from `~/Downloads/settings.json`.
@@ -151,7 +151,7 @@ bash <(curl -fsSL raw.githubusercontent.com/marcosborgesphd/mac-setup/main/insta
     cp "${HOME}/Library/Application Support/Code/User/settings.json" "${HOME}/Downloads"
     ```
 
-11. Update your VS Code settings. Copy and paste that in the terminal:
+11. Update your VS Code settings. Copy and paste that in the terminal
 
     ```bash
     SETTINGS="$(cat <<'EOF'
