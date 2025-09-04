@@ -40,6 +40,7 @@ export default defineConfig({
                         { label: 'Terminal Setup', slug: 'guides/terminal-setup' },
                         { label: 'Code Editor Setup', slug: 'guides/code-editor-setup' },
                         { label: 'Python Setup', slug: 'guides/python-setup' },
+                        { label: 'LaTeX Setup', slug: 'guides/latex-setup' },
                     ],
                 }
             ],
