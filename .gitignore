@@ -1,0 +1,26 @@
+# macOS
+*.DS_Store
+._*
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# Build output
+dist/
+
+# Generated types
+.astro/
+
+# Dependencies
+node_modules/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Environment variables
+.env
+.env.production
