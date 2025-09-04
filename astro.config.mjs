@@ -39,6 +39,7 @@ export default defineConfig({
                         { label: 'Git Setup', slug: 'guides/git-setup' },
                         { label: 'Terminal Setup', slug: 'guides/terminal-setup' },
                         { label: 'Code Editor Setup', slug: 'guides/code-editor-setup' },
+                        { label: 'Python Setup', slug: 'guides/python-setup' },
                     ],
                 }
             ],

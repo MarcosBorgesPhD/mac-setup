@@ -1,0 +1,173 @@
+---
+title: Python Setup
+description: Install and set up Python.
+---
+import { Steps, Aside, FileTree } from '@astrojs/starlight/components';
+
+![Python](../../../assets/python.png)
+
+[Python](https://www.python.org), created by Guido van Rossum in 1991, is a widely used programming language praised for its simplicity, readability, and versatility. Its clean syntax makes it easier to read and write code compared to languages like C, C++, or Rust.
+
+## Considerations
+
+There are many ways to install Python, and I recommend using the `uv` package manager for the best experience. Other options like `conda`, `pyenv`, or the official installers from Python.org are reliable and effective but may become limiting as your Python expertise grows.
+
+Just know that `uv` will help you with tasks like:
+
+- Installing specific Python versions
+- Creating and managing virtual environments
+- Installing and managing Python packages and tools
+- Replacing several tools like `conda`, `pyenv`, `pip`, `poetry`, `virtualenv`, and more
+
+<Aside type="tip">
+For more details or help with `uv`, visit the official documentation at [docs.astral.sh/uv](https://docs.astral.sh/uv).
+</Aside>
+
+## Installing Python with `uv`
+
+<Steps>
+
+1. Install `uv`
+
+    ```bash
+    brew install uv
+    ```
+
+2. Update your shell PATH
+
+    ```bash
+    uv tool update-shell
+    ```
+
+    <Aside type="note">
+    You may need to restart your terminal.
+    </Aside>
+
+3. Install Python
+
+    ```bash
+    uv python install
+    ```
+
+</Steps>
+
+## Running Python Code
+
+```bash
+uv run my_python_script.py
+```
+
+## Launching the Python Interpreter
+
+```bash
+uv run python
+```
+
+## Launching the IPython Interpreter
+
+IPython is a powerful interactive Python shell that provides a rich environment for data exploration, experimentation, and visualisation. It offers features like code completion, syntax highlighting, and the ability to execute code line by line. It is great for interactive learning and experimentation.
+
+<Steps>
+
+1. Install IPython
+
+    ```bash
+    uv tool install ipython --with pip
+    ```
+
+2. Launch the IPython Interpreter
+
+    ```bash
+    ipython
+    ```
+
+</Steps>
+
+## Launching the JupyterLab
+
+JupyterLab is a web application for creating interactive documents that combine code, text, equations, and rich visuals. It provides Python learners with an intuitive environment for coding and experimentation.
+
+<Steps>
+
+1. Install JupyterLab
+
+    ```bash
+    uv tool install jupyterlab
+    ```
+
+2. Launch JupyterLab
+
+    ```bash
+    jupyter-lab
+    ```
+</Steps>
+
+## Working on projects
+
+Create a new Python project
+
+```bash
+uv init hello-world
+```
+
+Run the hello-world `main.py` example
+
+```bash
+uv run ./hello-world/main.py
+```
+
+`uv` will create the following files
+
+<FileTree>
+
+- hello-world
+    - .git
+    - .venv
+        - bin
+        - lib
+        - pyvenv.cfg
+    - .gitignore
+    - main.py
+    - pyproject.toml
+    - README.md
+    - uv.lock
+
+</FileTree>
+
+## Using Python environments
+
+Create a virtual environment at `.venv`
+
+```bash
+uv venv
+```
+
+You can create a virtual environment with a specific Python version
+
+```bash
+uv venv --python 3.13
+```
+
+Activate the virtual environment
+
+```bash
+source .venv/bin/activate
+```
+
+Install a package in the virtual environment
+
+```bash
+uv pip install ...
+```
+
+List all installed packages in the virtual environment
+
+```bash
+ uv pip list
+```
+
+Exit the virtual environment
+
+```bash
+deactivate
+```
