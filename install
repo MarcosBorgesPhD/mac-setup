@@ -5,7 +5,7 @@
 # https://marcosborges.phd
 #
 readonly MAC_SETUP_DOC="https://marcosborgesphd.github.io/mac-setup"
-readonly VERSION="0.0.1"
+readonly VERSION="0.0.2"
 readonly PREFIX="${HOME}"
 
 readonly CR='\033[91m'
@@ -25,6 +25,8 @@ Options
   -v, --version  Show version details
   git            Install and set up Git
   gitconfig      Set up Git
+  terminal       Install and set up Starship and Zsh
+  zsh            Set up Zsh
 EOF
 }
 
@@ -77,7 +79,7 @@ brew_init() {
         HOMEBREW='/usr/local'    # Intel
     fi
 
-    if [[ -x "${HOMEBREW}/bin/brew2" ]]; then
+    if [[ -x "${HOMEBREW}/bin/brew" ]]; then
         eval "$(${HOMEBREW}/bin/brew shellenv)"
     else
         printf "\nInstall Homebrew and then re-run this script.\n"
@@ -128,6 +130,80 @@ git_config() {
     printf "\n${CG}Git configuration completed.${NC}\n\n"
 }
 
+terminal_install() {
+    printf "${CM}Installing Starship shell prompt...${NC}\n"
+    brew install starship
+
+    printf "${CM}Installing Zsh plugins...${NC}\n"
+    brew install zsh-autosuggestions zsh-syntax-highlighting
+
+    printf "${CM}Installing GNU Coreutils and Bat...${NC}\n"
+    brew install coreutils bat
+
+    printf "${CM}Installing JetBrains Mono Nerd Font...${NC}\n"
+    brew install font-jetbrains-mono-nerd-font
+
+    printf "\n${CG}Terminal installation completed successfully.${NC}\n\n"
+}
+
+terminal_config() {
+    printf "${CM}Configuring Zsh...${NC}\n"
+
+    printf "Backing up the .zshrc file...\n"
+    if [[ -f "${HOME}/.zshrc" ]]; then
+        cp "${HOME}/.zshrc" "${HOME}/.zshrc.bkp"
+    fi
+
+    printf "Updating the .zshrc file...\n"
+    echo "$(terminal_zshrc)" > "${HOME}/.zshrc"
+
+    printf "\n${CG}Terminal configuration completed successfully.${NC}\n"
+    printf "Restart your terminal.\n\n"
+}
+
+terminal_zshrc() {
+cat <<'EOF'
+# Homebrew environment
+if [[ "$(/usr/bin/uname -m)" == "arm64" ]]; then
+    HOMEBREW='/opt/homebrew' # ARM
+else
+    HOMEBREW='/usr/local'    # Intel
+fi
+eval "$(${HOMEBREW}/bin/brew shellenv)"
+
+# Zsh completion
+autoload -Uz compinit && compinit
+zstyle ':completion:*' menu select
+
+# Zsh plugins
+source "${HOMEBREW}/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
+source "${HOMEBREW}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+
+# Starship prompt
+eval "$(starship init zsh)"
+
+# Keybindings for history search
+bindkey '^P'   history-beginning-search-backward # Ctrl-P
+bindkey '^N'   history-beginning-search-forward  # Ctrl-N
+bindkey '^[[A' history-beginning-search-backward # Up arrow
+bindkey '^[[B' history-beginning-search-forward  # Down arrow
+
+# Aliases for better defaults
+alias cat="bat"
+alias grep="grep --color=auto"
+alias ls="gls --color --group-directories-first"
+
+# VIM environment
+export VIMINIT='syntax on | set number'
+
+# History
+setopt INC_APPEND_HISTORY   # Write history as commands are entered
+setopt HIST_IGNORE_ALL_DUPS # Remove older duplicate entries
+setopt HIST_REDUCE_BLANKS   # Remove extra spaces
+setopt HIST_IGNORE_SPACE    # Commands starting with space not saved
+EOF
+}
+
 # --- Check for no arguments ---
 if [[ $# -eq 0 ]]; then
     usage
@@ -152,6 +228,14 @@ for arg in "$@"; do
             ;;
         gitconfig)
             git_config
+            ;;
+        terminal)
+            brew_update
+            terminal_install
+            terminal_config
+            ;;
+        zsh)
+            terminal_config
             ;;
         --|-*|*)
             error
