@@ -42,7 +42,13 @@ export default defineConfig({
                         { label: 'Python Setup', slug: 'guides/python-setup' },
                         { label: 'LaTeX Setup', slug: 'guides/latex-setup' },
                     ],
-                }
+                },
+                {
+                    label: 'Cheat Sheets',
+                    items: [
+                        { label: 'Tmux', slug: 'cheat-sheets/tmux' },
+                    ],
+                },
             ],
         }),
     ],
