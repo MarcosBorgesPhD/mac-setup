@@ -1,0 +1,197 @@
+---
+title: Vim Cheat Sheet
+description: Master Vim with a comprehensive cheat sheet.
+---
+
+![Tmux](../../../assets/vim.png)
+
+**Vim** is a **modal text editor** with distinct modes for different tasks.
+
+Understanding these modes is key to using Vim effectively:
+
+- **Normal** (default): For navigation, editing commands, and text manipulation.
+- **Insert**: For typing and inserting text.
+- **Visual**: For selecting text blocks.
+- **Command-line**: For executing commands.
+
+## Start with Vim Tutor
+
+For anyone completely new to Vim, the best place to start is Vim Tutor. It's designed to be completed in about 30 minutes. By the time you're done, you'll know how to navigate, insert, delete, and save text.
+
+To launch the tutor, just type this command in your terminal:
+
+```bash
+vimtutor
+```
+
+## Vim basic operations
+
+A few essential commands to get you started.
+
+**Open a file in Vim:**
+
+```bash
+vim <filename>
+```
+
+**Basic operations:**
+
+```
+:h      " Open the help documentation
+:w      " Save changes
+:wq     " Save and quit
+:q!     " Quit without saving changes
+```
+
+## Vim modes and movement
+
+### Insert mode
+
+These commands are used from **Normal mode** to enter **Insert mode**.
+
+```
+i       " Insert text before the cursor
+I       " Insert text at the beginning of the line
+a       " Append text after the cursor
+A       " Append text at the end of the line
+o       " Open a new line below the current one and insert
+O       " Open a new line above the current one and insert
+```
+
+### Basic motions
+
+Navigate your text quickly and efficiently.
+
+```
+h       " Move left
+j       " Move down
+k       " Up
+l       " Right
+0       " Move to the start of the line
+$       " Move to the end of the line
+^       " Move to the first non-blank character of the line
+gg      " Go to the first line of the file
+G       " Go to the last line of the file
+5G      " Go to line 5
+```
+
+### Word motions
+
+Move between words and characters.
+
+```
+w       " Move to the beginning of the next word
+b       " Move to the beginning of the previous word
+e       " Move to the end of the current or next word
+ge      " Move to the end of the previous word
+%       " Jump between matching parentheses, braces, and brackets
+```
+
+## Vim editing and deleting
+
+### Deleting
+
+Delete text with these powerful commands.
+
+```
+x       " Delete the character under the cursor
+dd      " Delete the current line
+dw      " Delete from the cursor to the end of the word
+D       " Delete from the cursor to the end of the line
+```
+
+### Changing
+
+Change commands **delete** and then put you into **Insert mode**.
+
+```
+r       " Replace a single character
+cw      " Change the current word
+C       " Change to the end of the line
+cc      " Change the entire line
+```
+
+### Undo, redo, and repeating
+
+Manage your edits with these essential commands.
+
+```
+u       " Undo the last change
+Ctrl+r  " Redo the last undo
+.       " Repeat the last change or command
+```
+
+## Copy, cut, and paste
+
+These operations are often referred to as "yanking" (copying), "deleting" (cutting), and "pasting."
+
+```
+yy      " Yank (copy) the current line
+yw      " Yank (copy) the current word
+p       " Paste after the cursor
+P       " Paste before the cursor
+```
+
+## Vim visual mode
+
+Use **visual mode** for selecting and operating on a block of text.
+
+```
+v       " Start character-wise visual selection
+V       " Start line-wise visual selection
+Ctrl+v  " Start block-wise visual selection
+y       " Yank (copy) the selected text
+d       " Delete the selected text
+```
+
+## Vim searching and replacing
+
+Find and replace text with power.
+
+```
+/word   " Search forward for 'word'
+?word   " Search backward for 'word'
+n       " Go to the next match
+N       " Go to the previous match
+*       " Search for the word under the cursor
+#       " Search backwards for the word under the cursor
+
+:%s/old/new/g   " Find and replace all 'old' with 'new' in the file
+:%s/old/new/gc  " Find and replace all with confirmation
+```
+
+## Vim file navigation
+
+Vim has a built-in file explorer called **Netrw** to navigate your project without leaving the editor.
+
+**Open the file explorer:**
+
+```
+:Explore    " Open in the current window
+:Lexplore   " Open in a new horizontal split (left)
+:Vexplore   " Open in a new vertical split
+```
+
+**Navigate with these keys:**
+
+```
+Enter       " Open a directory or file
+-           " Go up to the parent directory
+u           " Go back to the previous directory in history
+mb          " Bookmark the current directory
+gb          " Jump to a bookmarked directory
+```
+
+## Vim window management
+
+Split your screen to work on multiple files or sections of the same file.
+
+```
+:split      " Horizontally split the window
+:vsplit     " Vertically split the window
+Ctrl-w h    " Move to the window to the left
+Ctrl-w j    " Move to the window below
+Ctrl-w k    " Move to the window above
+Ctrl-w l    " Move to the window to the right
+Ctrl-w q    " Close the current split
+```

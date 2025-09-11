@@ -47,6 +47,7 @@ export default defineConfig({
                     label: 'Cheat Sheets',
                     items: [
                         { label: 'Tmux', slug: 'cheat-sheets/tmux' },
+                        { label: 'Vim', slug: 'cheat-sheets/vim' },
                     ],
                 },
             ],
